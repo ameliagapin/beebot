@@ -84,7 +84,7 @@ controller.on('rtm_close', function (bot) {
 
 var count = 0;
 
-controller.hears('nuke it', ['mention', 'direct_mention', 'message', 'direct_message'], function (bot, message) {
+controller.hears('sting everyone', ['mention', 'direct_mention', 'message', 'direct_message'], function (bot, message) {
     if (message.user == 'U707DN0DD') {
         setInterval((bot, message) => {
             bot.reply(message, text[count]);
@@ -94,6 +94,23 @@ controller.hears('nuke it', ['mention', 'direct_mention', 'message', 'direct_mes
             }
         }, 750, bot, message)
     }
+});
+
+controller.hears('sting (.+)', ['mention', 'direct_mention', 'message', 'direct_message'], async(bot, message) => {
+//    if (message.user == 'U707DN0DD') {
+        await bot.startPrivateConversation(message, function(err, dm) {
+            console.log(dm);
+            bot.reply(dm.source_message.channel, "hello");
+
+        });
+        setInterval((bot, message) => {
+            bot.reply(message, text[count]);
+            count ++;
+            if (count == text.length-1) {
+               clearInterval(nuke);
+            }
+        }, 1100, bot, message)
+ //   }
 });
 
 
